@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>使用指南 · 路标</title>
+  <meta name="description" content="路标 · 升学与职业规划站点使用指南：填写信息、读懂路径结果、启用 AI 生成与常见问题。" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("lubiao-theme");
+        if (t !== "light" && t !== "dark") {
+          t = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230E7C7B'/%3E%3Cpath d='M16 7l2.2 6.8L25 16l-6.8 2.2L16 25l-2.2-6.8L7 16l6.8-2.2z' fill='%23fff'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css?v=5" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="page">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l2.1 6.5L21 12l-6.9 1.5L12 20l-2.1-6.5L3 12l6.9-1.5z"/></svg>
+        </span>
+        <span class="brand-text">路标<small>升学与职业规划</small></span>
+      </a>
+      <div class="header-right">
+        <a class="guide-link is-active" href="guide.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          使用指南
+        </a>
+        <div class="header-note">从现状到目标，把每一步走清楚</div>
+        <button type="button" class="theme-btn" id="btn-theme" aria-label="切换到深色模式" title="切换深色 / 浅色模式">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page guide-page">
+    <div class="guide-hero">
+      <h1>使用指南</h1>
+      <p>路标帮你把「现在的你」和「想去的目标」之间的路拆成一条条可执行的路径。本指南介绍如何填写信息、读懂路径结果、启用 AI 生成，以及常见问题的解决办法。</p>
+    </div>
+
+    <section class="guide-section">
+      <h2><span class="g-no">1</span>三种打开方式</h2>
+      <p class="g-sub">根据你需要的功能选择打开方式</p>
+      <ul class="guide-steps">
+        <li>
+          <span class="g-dot">A</span>
+          <div><b>双击 index.html（离线）</b><span>不联网、不需要密钥，直接用本地知识库生成路径，适合快速体验。</span></div>
+        </li>
+        <li>
+          <span class="g-dot">B</span>
+          <div><b>双击 start-server.bat（推荐）</b><span>启动本地服务并自动打开浏览器，AI 生成功能可用，页面底部状态条会显示「AI 已就绪」。</span></div>
+        </li>
+        <li>
+          <span class="g-dot">C</span>
+          <div><b>手动启动</b><span>在命令行进入站点目录运行 <code>python server.py</code>，然后访问 <code>http://127.0.0.1:8787</code>。</span></div>
+        </li>
+      </ul>
+      <div class="guide-callout is-info">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+        <span>直接双击 index.html 时 AI 不可用，属于正常现象；按方式 B 打开即可。</span>
+      </div>
+    </section>
+
+    <section class="guide-section">
+      <h2><span class="g-no">2</span>填写当前状况</h2>
+      <p class="g-sub">如实填写，路径里的达标要求会结合你的起点估算差距</p>
+      <ul>
+        <li><b>当前阶段</b>：高中在读 / 高中毕业 / 本科在读 / 本科毕业 / 硕士在读 / 硕士毕业 / 职场人士。选择高中阶段会出现「高考分数」输入框。</li>
+        <li><b>院校 / 单位、专业 / 方向</b>：选填，填得越具体，起点摘要越清晰。</li>
+        <li><b>GPA</b>：4.0 制，留学规划的重要参考。</li>
+        <li><b>语言成绩</b>：雅思 / 托福水平，系统会计算你与目标院校要求之间的差距。</li>
+        <li><b>相关经历</b>：实习、科研 / 项目、竞赛获奖、交换 / 海外经历、工作经历，可多选。</li>
+      </ul>
+      <div class="guide-callout is-warn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <span>「暂不填写 / 不适用」也没关系，系统会按更保守的假设规划，并提示你补足的方向。</span>
+      </div>
+    </section>
+
+    <section class="guide-section">
+      <h2><span class="g-no">3</span>填写目标</h2>
+      <p class="g-sub">目标院校与目标职业都可以填，两者可组合，至少填写一项</p>
+      <h3>目标院校（选填）</h3>
+      <p>选择国家 / 地区后会出现对应院校下拉框，目前覆盖 61 所：美国、英国、新加坡、中国香港、澳大利亚、加拿大、中国、日本、欧盟 / 欧洲。每个院校都有 GPA、语言、GRE、费用与申请时间线等真实参考信息。</p>
+      <h3>目标职业（选填）</h3>
+      <p>可填目标公司（如 Google、博世、Shopee）+ 目标岗位（15 类，如软件工程师、量化研究员、游戏策划、机械 / 汽车工程师等）。</p>
+      <h3>组合规则</h3>
+      <ul>
+        <li><b>填写了目标职业</b>：职业是路径终点；目标院校作为路径中的关键节点——填了院校就用你选的院校，没填则系统会推荐适配院校。</li>
+        <li><b>只填写目标院校</b>：院校就是路径终点，按留学路径规划。</li>
+        <li><b>自定义目标（AI 专用）</b>：知识库里没有的院校或岗位，用一句话写在这里（如「日本东京大学机器人学硕士」「米哈游战斗策划」），AI 会据此生成路径。</li>
+      </ul>
+      <div class="guide-callout is-info">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+        <span>什么都不填就点生成，页面会提示「请至少填写一项目标」，不会空跑。</span>
+      </div>
+    </section>
+
+    <section class="guide-section">
+      <h2><span class="g-no">4</span>时间与偏好</h2>
+      <p class="g-sub">影响路径的排序与推荐标记</p>
+      <ul>
+        <li><b>距离关键时间点</b>：还剩 1 年以内 / 1–2 年 / 2–3 年 / 3 年以上。</li>
+        <li><b>可承担总预算</b>：人民币口径，用于估算每条路径的花费档位。</li>
+        <li><b>最看重什么</b>：稳妥上岸（按成功率排序）、更快达成（按时长排序）、成本更低（按花费排序）、名校 / 名企牌子（保持多路径）。</li>
+      </ul>
+    </section>
+
+    <section class="guide-section">
+      <h2><span class="g-no">5</span>生成与读懂结果</h2>
+      <p class="g-sub">两种生成方式的区别</p>
+      <div class="guide-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr><th>对比项</th><th>生成发展路径</th><th>AI 生成路径</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>数据来源</td><td>内置知识库（61 所院校 / 15 类岗位 / 36 家公司）</td><td>大模型基于公开常识推理，并参考本地知识库</td></tr>
+            <tr><td>是否需要联网</td><td>不需要</td><td>需要启动本地服务并配置 DeepSeek 密钥</td></tr>
+            <tr><td>速度</td><td>约 0.1 秒</td><td>通常 5–30 秒</td></tr>
+            <tr><td>适用场景</td><td>目标在知识库内、想快速稳定出结果</td><td>知识库外的目标、想要更个性化的建议</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>结果页怎么看</h3>
+      <ul>
+        <li><b>路径页签</b>：顶部可切换 3–4 条不同路径。</li>
+        <li><b>流程图节点</b>：起点 → 关键节点 → 终点；点击节点可展开达标要求、所需材料、时间节点、风险提示。</li>
+        <li><b>知识库 · 详情块</b>：AI 结果中会附上「知识库 · 院校信息 / 岗位信息 / 公司时间线」等块，内容有据可查。</li>
+        <li><b>路径对比表</b>：总时长、花费、难度、成功率、适合人群横向对比。</li>
+        <li><b>如果遇到意外</b>：每条路径末尾附 Plan B 备选方案。</li>
+      </ul>
+    </section>
+
+    <section class="guide-section">
+      <h2><span class="g-no">6</span>启用 AI 生成</h2>
+      <p class="g-sub">密钥只保存在你本机，通过本地服务转发，不会发送到浏览器</p>
+      <ul class="guide-steps">
+        <li>
+          <span class="g-dot">1</span>
+          <div><b>准备密钥</b><span>在 platform.deepseek.com 的「API Keys」页面创建密钥。</span></div>
+        </li>
+        <li>
+          <span class="g-dot">2</span>
+          <div><b>配置 .env</b><span>把 <code>.env.example</code> 复制为 <code>.env</code>，将 <code>DEEPSEEK_API_KEY=</code> 后替换为你的真实密钥并保存。</span></div>
+        </li>
+        <li>
+          <span class="g-dot">3</span>
+          <div><b>启动服务</b><span>双击 <code>start-server.bat</code>，页面底部状态条显示「AI 已就绪 · 模型 …」后即可使用。</span></div>
+        </li>
+      </ul>
+      <h3>状态条可点击</h3>
+      <p>保存或修改密钥后不需要重启服务：点击页面底部的状态文字「点击这里重新检测」即可生效；从结果页按「修改输入」返回时也会自动重新检测。</p>
+      <div class="guide-callout is-warn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <span>AI 结果基于公开常识推断，可能存在不准确之处，请以目标院校 / 公司官网最新信息为准。</span>
+      </div>
+      <div class="guide-callout is-bad">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+        <span>不要在聊天或网页中粘贴密钥；密钥只在本地 <code>.env</code> 文件里使用。</span>
+      </div>
+    </section>
+
+    <section class="guide-section">
+      <h2><span class="g-no">7</span>深色模式与打印</h2>
+      <p class="g-sub">保持极简，只换配色</p>
+      <ul>
+        <li>点击右上角的月亮 / 太阳按钮切换深色与浅色模式，选择会被记住，默认跟随系统。</li>
+        <li>支持浏览器打印 / 导出 PDF：打印时自动只保留规划结果，适合把路径保存成文档。</li>
+      </ul>
+    </section>
+
+    <section class="guide-section">
+      <h2><span class="g-no">8</span>常见问题</h2>
+      <p class="g-sub">遇到问题先看这里</p>
+      <div class="faq-item">
+        <h3>页面显示「AI 未配置」，但命令行显示已识别密钥？</h3>
+        <p>说明有旧的服务窗口占着端口。关闭所有旧的黑色命令行窗口，重新双击 start-server.bat；新版服务遇到端口占用会明确报错提示。</p>
+      </div>
+      <div class="faq-item">
+        <h3>保存密钥后页面还是显示未配置？</h3>
+        <p>先确认打开的是服务地址（http://127.0.0.1:8787）而不是直接双击的 index.html；然后点击页面底部状态条「重新检测」，或按「修改输入」返回再回来。</p>
+      </div>
+      <div class="faq-item">
+        <h3>端口 8787 被占用怎么办？</h3>
+        <p>在 .env 中加一行 <code>PORT=其他端口号</code> 后重启；或关闭占用端口的程序。</p>
+      </div>
+      <div class="faq-item">
+        <h3>AI 提示失败 / 返回内容为空？</h3>
+        <p>服务会自动重试一次。仍失败时检查：网络（直连不通可在 .env 配置 <code>AI_PROXY</code> 指向本地代理）、DeepSeek 账户余额、密钥是否有效。</p>
+      </div>
+      <div class="faq-item">
+        <h3>想换 AI 模型？</h3>
+        <p>在 .env 中修改 <code>AI_MODEL</code>：默认 <code>deepseek-v4-flash</code>（快、省），需要更强推理可改 <code>deepseek-v4-pro</code>。</p>
+      </div>
+      <div class="faq-item">
+        <h3>知识库里没有我想去的学校 / 岗位？</h3>
+        <p>用「自定义目标」写一句话交给 AI 生成；也可以在 <code>js/app.js</code> 顶部的知识库部分自行追加院校、岗位与公司信息。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="page">
+      <p><strong>路标 · 升学与职业规划</strong> —— 信息来自各院校 / 公司官网、教育部门与公开招聘信息等公开渠道，整理时间为 2026-08。</p>
+      <p>规划结果仅为参考建议，不构成录取或录用承诺。请以目标院校、考试官方与用人单位的现行政策为准。</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var btn = document.getElementById("btn-theme");
+      if (!btn) return;
+      var icons = {
+        dark: '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+        light: '<path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>'
+      };
+      function apply(t) {
+        document.documentElement.setAttribute("data-theme", t);
+        try { localStorage.setItem("lubiao-theme", t); } catch (e) {}
+        btn.setAttribute("aria-label", t === "dark" ? "切换到浅色模式" : "切换到深色模式");
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + icons[t === "dark" ? "light" : "dark"] + "</svg>";
+      }
+      btn.addEventListener("click", function () {
+        apply(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+      });
+      apply(document.documentElement.getAttribute("data-theme") || "light");
+    })();
+  </script>
+</body>
+</html>

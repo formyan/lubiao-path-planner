@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>路标 · 升学与职业规划</title>
+  <meta name="description" content="输入你的教育现状与目标院校或目标岗位，自动生成多条可执行的升学 / 职业发展路径。" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("lubiao-theme");
+        if (t !== "light" && t !== "dark") {
+          t = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230E7C7B'/%3E%3Cpath d='M16 7l2.2 6.8L25 16l-6.8 2.2L16 25l-2.2-6.8L7 16l6.8-2.2z' fill='%23fff'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css?v=5" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="page">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l2.1 6.5L21 12l-6.9 1.5L12 20l-2.1-6.5L3 12l6.9-1.5z"/></svg>
+        </span>
+        <span class="brand-text">路标<small>升学与职业规划</small></span>
+      </a>
+      <div class="header-right">
+        <a class="guide-link" href="guide.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          使用指南
+        </a>
+        <div class="header-note">从现状到目标，把每一步走清楚</div>
+        <button type="button" class="theme-btn" id="btn-theme" aria-label="切换到深色模式" title="切换深色 / 浅色模式">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ===================== 输入视图 ===================== -->
+    <section id="view-input" class="page view">
+      <div class="intro">
+        <h1>你的起点，你的目标，<br />中间的路由系统帮你拆开。</h1>
+        <p class="intro-sub">填写当前教育 / 职业状况，再填写目标院校（选填）和 / 或目标职业（选填）。系统会生成多条不同的发展路径：每个关键节点都可展开查看达标要求、所需材料与建议时间。</p>
+        <a class="intro-guide-link" href="guide.html">查看使用指南
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <div class="samples" aria-label="示例">
+        <span class="samples-label">试试示例：</span>
+        <button type="button" class="sample-chip" data-sample="hs-cs">高三 → 美国计算机本科</button>
+        <button type="button" class="sample-chip" data-sample="ug-ox">本科在读 → 牛津硕士</button>
+        <button type="button" class="sample-chip" data-sample="ug-swe">本科毕业 → 谷歌软件工程师</button>
+        <button type="button" class="sample-chip" data-sample="ug-jp">本科在读 → 东京大学硕士</button>
+        <button type="button" class="sample-chip" data-sample="ug-eu">本科毕业 → 博世机械工程师</button>
+        <button type="button" class="sample-chip" data-sample="ug-sg">本科在读 → 新加坡国立硕士</button>
+      </div>
+
+      <form id="plan-form" class="plan-form" novalidate>
+        <div class="form-section">
+          <div class="form-section-head">
+            <span class="step-no">1</span>
+            <h2>当前状况</h2>
+            <p>你现在处于什么阶段、手里有什么条件</p>
+          </div>
+          <div class="form-grid">
+            <label class="field">
+              <span class="field-label">当前阶段</span>
+              <select id="f-stage" name="stage">
+                <option value="hs">高中在读 / 高三</option>
+                <option value="hsgrad">高中毕业（未入读本科）</option>
+                <option value="ug" selected>本科在读</option>
+                <option value="ugrad">本科毕业</option>
+                <option value="ms">硕士在读</option>
+                <option value="msgrad">硕士毕业</option>
+                <option value="work">职场人士</option>
+                <option value="other">其他</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field-label">当前院校 / 单位 <em>选填</em></span>
+              <input id="f-school" name="school" type="text" placeholder="例如：某大学 / 某公司" />
+            </label>
+            <label class="field">
+              <span class="field-label">当前专业 / 方向 <em>选填</em></span>
+              <input id="f-major" name="major" type="text" placeholder="例如：计算机科学" />
+            </label>
+            <label class="field" id="wrap-gaokao" hidden>
+              <span class="field-label">高考分数 <em>选填</em></span>
+              <input id="f-gaokao" name="gaokao" type="number" min="0" max="750" placeholder="例如：630" />
+            </label>
+            <label class="field">
+              <span class="field-label">平均绩点 GPA <em>4.0 制</em></span>
+              <select id="f-gpa" name="gpa">
+                <option value="gpa-high">3.8 及以上</option>
+                <option value="gpa-mid" selected>3.5 – 3.8</option>
+                <option value="gpa-low">3.0 – 3.5</option>
+                <option value="gpa-min">3.0 以下</option>
+                <option value="gpa-na">暂无 / 不适用</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field-label">语言成绩 <em>雅思 / 托福</em></span>
+              <select id="f-lang" name="lang">
+                <option value="lang-75">雅思 7.5+ / 托福 110+</option>
+                <option value="lang-70">雅思 7.0+ / 托福 100+</option>
+                <option value="lang-65" selected>雅思 6.5+ / 托福 90+</option>
+                <option value="lang-60">雅思 6.0+ / 托福 80+</option>
+                <option value="lang-none">尚无 / 未考</option>
+              </select>
+            </label>
+          </div>
+          <fieldset class="chips-field">
+            <legend class="field-label">相关经历 <em>可多选</em></legend>
+            <div class="chips">
+              <label class="chip"><input type="checkbox" name="exp" value="intern" /><span>实习经历</span></label>
+              <label class="chip"><input type="checkbox" name="exp" value="research" /><span>科研 / 项目</span></label>
+              <label class="chip"><input type="checkbox" name="exp" value="contest" /><span>竞赛获奖</span></label>
+              <label class="chip"><input type="checkbox" name="exp" value="exchange" /><span>交换 / 海外经历</span></label>
+              <label class="chip"><input type="checkbox" name="exp" value="work" /><span>工作经历</span></label>
+              <label class="chip"><input type="checkbox" name="exp" value="none" /><span>暂无相关经历</span></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-head">
+            <span class="step-no">2</span>
+            <h2>目标</h2>
+            <p>至少填写一项：院校 / 职业 / 自定义目标</p>
+          </div>
+
+          <p class="goal-tip">填写了目标职业时，职业是路径终点；目标院校作为路径中的关键节点（不填院校则系统会推荐适配院校）。只填写目标院校时，院校就是路径终点。</p>
+
+          <div class="form-grid" id="fields-study">
+            <label class="field">
+              <span class="field-label">目标国家 / 地区 <em>选填</em></span>
+              <select id="f-country" name="country">
+                <option value="us" selected>美国</option>
+                <option value="uk">英国</option>
+                <option value="sg">新加坡</option>
+                <option value="hk">中国香港</option>
+                <option value="au">澳大利亚</option>
+                <option value="ca">加拿大</option>
+                <option value="cn">中国</option>
+                <option value="jp">日本</option>
+                <option value="eu">欧盟 / 欧洲</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field-label">目标院校 <em>选填</em></span>
+              <select id="f-university" name="university"></select>
+            </label>
+            <label class="field">
+              <span class="field-label">目标专业方向 <em>选填</em></span>
+              <select id="f-major-target" name="majorTarget">
+                <option value="cs">计算机 / 软件</option>
+                <option value="ds">数据科学 / 统计</option>
+                <option value="fin">金融 / 商科</option>
+                <option value="ee">电子 / 电气</option>
+                <option value="media">传媒</option>
+                <option value="law">法律</option>
+                <option value="edu">教育</option>
+                <option value="eng">工程（机械 / 土木等）</option>
+                <option value="bio">生物 / 医药</option>
+                <option value="other">其他</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="form-grid" id="fields-work">
+            <label class="field">
+              <span class="field-label">目标公司 <em>选填</em></span>
+              <input id="f-company" name="company" type="text" list="company-list" placeholder="例如：Google / 腾讯 / 麦肯锡" />
+              <datalist id="company-list">
+                <option value="Google"></option>
+                <option value="字节跳动"></option>
+                <option value="腾讯"></option>
+                <option value="阿里巴巴"></option>
+                <option value="华为"></option>
+                <option value="麦肯锡"></option>
+                <option value="中金公司"></option>
+              </datalist>
+            </label>
+            <label class="field">
+              <span class="field-label">目标岗位 <em>选填</em></span>
+              <select id="f-position" name="position">
+                <option value="">不指定（选填）</option>
+                <option value="swe">软件工程师</option>
+                <option value="pm">产品经理</option>
+                <option value="da">数据分析师</option>
+                <option value="consultant">咨询顾问</option>
+                <option value="ibd">投行分析师</option>
+                <option value="ai">人工智能工程师</option>
+                <option value="ux">交互 / UI 设计师</option>
+                <option value="game">游戏策划</option>
+                <option value="mech">机械 / 汽车工程师</option>
+                <option value="cyber">网络安全工程师</option>
+                <option value="ops">产品运营</option>
+                <option value="quant">量化研究员</option>
+                <option value="biotech">生物医药研发</option>
+                <option value="marketing">市场营销 / 品牌经理</option>
+                <option value="hr">人力资源（HRBP / 招聘）</option>
+                <option value="other">其他</option>
+              </select>
+            </label>
+          </div>
+          <label class="field field-wide" id="wrap-ai-goal">
+            <span class="field-label">自定义目标 <em>AI 专用 · 可选</em></span>
+            <input id="f-ai-goal" name="aiGoal" type="text" placeholder="例如：日本东京大学机器人学硕士 / 米哈游战斗策划 / 德国大众自动驾驶工程师" />
+            <span class="field-hint">知识库里没有的院校或岗位，用一句话写在这里，AI 会据此生成路径。</span>
+          </label>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-head">
+            <span class="step-no">3</span>
+            <h2>时间与偏好</h2>
+            <p>用来估算每条路径的节奏和可行性</p>
+          </div>
+          <div class="form-grid">
+            <label class="field">
+              <span class="field-label">距离关键时间点还有多久</span>
+              <select id="f-horizon" name="horizon">
+                <option value="1y">1 年内（已临近）</option>
+                <option value="2y" selected>1 – 2 年</option>
+                <option value="3y">2 – 3 年</option>
+                <option value="more">3 年以上</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field-label">可承担总预算 <em>人民币，选填</em></span>
+              <select id="f-budget" name="budget">
+                <option value="b-na" selected>暂不确定</option>
+                <option value="b1">10 万以内</option>
+                <option value="b2">10 – 30 万</option>
+                <option value="b3">30 – 60 万</option>
+                <option value="b4">60 万以上</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field-label">最看重什么</span>
+              <select id="f-priority" name="priority">
+                <option value="steady" selected>稳妥上岸</option>
+                <option value="fast">更快达成</option>
+                <option value="cheap">成本更低</option>
+                <option value="name">名校 / 名企牌子</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <p id="form-error" class="form-error" role="alert" hidden></p>
+          <div class="btn-row">
+            <button type="submit" class="btn-primary" id="btn-generate">
+              <span class="btn-label">生成发展路径</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <button type="button" class="btn-ai" id="btn-ai" disabled>
+              <span class="btn-label">AI 生成路径</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>
+            </button>
+          </div>
+          <button type="button" class="ai-status" id="ai-status" aria-live="polite">正在检测 AI 服务…</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ===================== 结果视图 ===================== -->
+    <section id="view-result" class="view" hidden>
+      <div class="page">
+        <div class="result-head">
+          <div class="result-route" aria-label="路径摘要">
+            <span class="route-node start-node"><span class="route-dot">起</span><span class="route-text" id="route-start">起点</span></span>
+            <span class="route-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <span class="route-node end-node"><span class="route-dot">终</span><span class="route-text" id="route-goal">目标</span></span>
+          </div>
+          <button type="button" class="btn-ghost" id="btn-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+            修改输入
+          </button>
+        </div>
+
+        <div class="notice-strip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+          <span>规划内容由公开信息整理生成（信息截至 2026-08），仅作参考。申请要求、考试安排、招聘时间等请以目标院校 / 公司官网最新公告为准。</span>
+        </div>
+
+        <div class="ai-note" id="ai-note" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>
+          <span>本次路径由 AI 联网生成（模型 <b id="ai-note-model"></b>）。AI 基于公开常识推断，可能存在不准确之处，请务必以目标院校 / 公司官网最新信息为准。</span>
+        </div>
+
+        <div class="path-tabs" id="path-tabs" role="tablist" aria-label="发展路径"></div>
+
+        <div id="path-panels"></div>
+
+        <section class="compare-section" aria-labelledby="compare-title">
+          <h2 id="compare-title">路径对比</h2>
+          <p class="section-sub">从总时长、花费、难度与成功率四个维度横向比较，帮你做第一轮取舍。</p>
+          <div class="table-wrap">
+            <table class="compare-table" id="compare-table">
+              <thead><tr id="compare-head"></tr></thead>
+              <tbody id="compare-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="planb-section" aria-labelledby="planb-title">
+          <h2 id="planb-title">如果遇到意外</h2>
+          <p class="section-sub">任何路径都不是唯一答案，提前想好后路。</p>
+          <div class="planb-list" id="planb-list"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="page">
+      <p><strong>路标 · 升学与职业规划</strong> —— 信息来自各院校 / 公司官网、教育部门与公开招聘信息等公开渠道，整理时间为 2026-08。</p>
+      <p>规划结果仅为参考建议，不构成录取或录用承诺。请以目标院校、考试官方与用人单位的现行政策为准。</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js?v=5"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+# 密钥与本地配置（切勿提交）
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# 日志与临时文件
+*.log
+tmp/
