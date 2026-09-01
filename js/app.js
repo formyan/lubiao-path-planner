@@ -2645,16 +2645,27 @@ const Engine = (() => {
         } else {
           aiReady = false;
           setAiBusy(false);
-          const hint = d && d.envFile
-            ? "已找到 .env 但密钥为空：请填入 DeepSeek 密钥并保存，然后点击这里重新检测"
-            : "未找到 .env：请复制 .env.example 为 .env 并填入密钥，然后点击这里重新检测";
+          let hint;
+          if (d && d.mode === "edgeone") {
+            hint = "AI 密钥未配置：请在 EdgeOne Pages 项目设置中添加 DEEPSEEK_API_KEY 环境变量并重新部署，然后点击这里重新检测";
+          } else if (d && d.envFile) {
+            hint = "已找到 .env 但密钥为空：请填入 DeepSeek 密钥并保存，然后点击这里重新检测";
+          } else {
+            hint = "未找到 .env：请复制 .env.example 为 .env 并填入密钥，然后点击这里重新检测";
+          }
           setAiStatus(hint, "warn");
         }
       })
       .catch(() => {
         aiReady = false;
         setAiBusy(false);
-        setAiStatus("连接本地服务失败：请通过「启动服务.bat」打开页面（双击 index.html 无法使用 AI），点击重试", "error");
+        const isEdge = location.protocol === "https:" && location.hostname.indexOf("edgeone.app") >= 0;
+        setAiStatus(
+          isEdge
+            ? "无法连接 AI 服务：请检查项目是否包含 functions/ 文件夹并已重新部署，点击重试"
+            : "连接本地服务失败：请通过「启动服务.bat」打开页面（双击 index.html 无法使用 AI），点击重试",
+          "error"
+        );
       });
   }
 

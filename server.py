@@ -792,7 +792,7 @@ class Handler(BaseHTTPRequestHandler):
             refresh_env()
             self.send_json(
                 200,
-                {"ok": True, "ai": bool(api_key()), "model": model_name(), "envFile": (ROOT / ".env").exists()},
+                {"ok": True, "mode": "local", "ai": bool(api_key()), "model": model_name(), "envFile": (ROOT / ".env").exists()},
             )
             return
         p = safe_path(self.path.split("?", 1)[0])
